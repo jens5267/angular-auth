@@ -1,7 +1,7 @@
 <div class="container my-5 log-form">
   <div class="row p-3">
     <div class="col-md">
-      <form class="p-5 z-depth-2" data-aos="flip-up">
+      <form class="p-5 z-depth-2" data-aos="flip-up" [formGroup]="form" (submit)="submit()">
         <div class="text-center">
           <mdb-icon
             style="color: #ff3547"
@@ -20,6 +20,7 @@
             id="username_form"
             class="form-control form-control-sm"
             required
+            formControlName="name"
           />
           <label for="username_form" class="">Username</label>
         </div>
@@ -30,6 +31,7 @@
             type="password"
             id="pwd_form"
             class="form-control form-control-sm"
+            formControlName="password"
             required
           />
           <label for="pwd_form" class="">Password</label>
