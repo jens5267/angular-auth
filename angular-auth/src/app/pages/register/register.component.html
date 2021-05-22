@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md">
       <div id='message'></div>
-      <form class="p-5 z-depth-2" data-aos="zoom-out" (submit)="submit()" [formGroup]="registerForm">
+      <form class="p-5 z-depth-1" data-aos="zoom-out" (submit)="submit()" [formGroup]="registerForm">
         <div class="text-center">
           <mdb-icon fas icon="user-circle" size="5x" class="mb-2" style="color: #3f51b5"></mdb-icon>
         </div>
@@ -37,7 +37,7 @@
           <label for="pwd_form" class="">Password</label>
         </div>
         <button mdbBtn color="indigo" class="my-4 btn-block" type="submit">
-          Register
+          <mdb-icon fas icon="user-plus"></mdb-icon> Register
         </button>
         <div class="text-center">
           Have an account?

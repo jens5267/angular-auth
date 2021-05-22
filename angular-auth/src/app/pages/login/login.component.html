@@ -1,7 +1,7 @@
 <div class="container my-5 log-form">
   <div class="row p-3">
     <div class="col-md">
-      <form class="p-5 z-depth-2" data-aos="flip-up" [formGroup]="loginForm" (submit)="submit()">
+      <form class="p-5 z-depth-1" data-aos="flip-up" [formGroup]="loginForm" (submit)="submit()">
         <div class="text-center">
           <mdb-icon
             style="color: #ff3547"
@@ -43,7 +43,7 @@
           <label for="pwd_form" class="">Password</label>
         </div>
         <button mdbBtn color="danger" class="my-4 btn-block" type="submit">
-          Login
+          <mdb-icon fas icon="sign-in-alt"></mdb-icon> Login
         </button>
         <div class="text-center">
           Don't have an account yet?
