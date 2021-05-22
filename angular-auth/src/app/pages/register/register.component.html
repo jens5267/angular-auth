@@ -1,7 +1,8 @@
 <div class="container my-5 reg-form">
   <div class="row">
     <div class="col-md">
-      <form class="p-5 z-depth-2" data-aos="zoom-out" [formGroup]="form" (submit)="submit()">
+      <div id='message'></div>
+      <form class="p-5 z-depth-2" data-aos="zoom-out" (submit)="submit()" [formGroup]="registerForm">
         <div class="text-center">
           <mdb-icon fas icon="user-circle" size="5x" class="mb-2" style="color: #3f51b5"></mdb-icon>
         </div>
@@ -13,18 +14,26 @@
           <input formControlName="email" mdbInput type="email" id="email_form" class="form-control form-control-sm"
             required />
           <label for="email_form" class="">E-mail</label>
+          <div *ngIf="email.invalid && email.touched">
+            <span class="red-text"> Your email does not look right</span>
+          </div>
         </div>
-
         <div class="md-form form-sm">
           <mdb-icon fas icon="user-alt" class="prefix"></mdb-icon>
           <input formControlName="name" mdbInput type="text" id="username_form" class="form-control form-control-sm"
             required />
+          <div *ngIf="name.invalid && name.touched">
+            <span class="red-text">Username is required</span>
+          </div>
           <label for="username_form" class="">Username</label>
         </div>
         <div class="md-form form-sm">
           <mdb-icon fas icon="key" class="prefix" size="1x"></mdb-icon>
           <input formControlName="password" mdbInput type="password" id="pwd_form" class="form-control form-control-sm"
-            required />
+            ngModel />  
+          <div *ngIf="password.invalid && password.touched">
+            <span class="red-text">Your password is too short</span>
+          </div>
           <label for="pwd_form" class="">Password</label>
         </div>
         <button mdbBtn color="indigo" class="my-4 btn-block" type="submit">
