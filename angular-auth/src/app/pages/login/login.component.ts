@@ -1,8 +1,12 @@
 import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ThrowStmt } from '@angular/compiler';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +14,7 @@ import { ThrowStmt } from '@angular/compiler';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  form!: FormGroup;
+  loginForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -19,12 +23,25 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      name: '',
-      password: '',
+    this.loginForm = this.formBuilder.group({
+      // Form validation
+      name: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
+  // get name from input data
+  get name() {
+    return this.loginForm.get('name');
+  }
+  // get password from input data
+  get password() {
+    return this.loginForm.get('password');
+  }
+  // submit function
+  // check form valid & send POST request to backend
   submit(): void {
-    console.log(this.form.getRawValue());
+    if (this.loginForm.valid) {
+      console.log(this.loginForm.getRawValue());
+    }
   }
 }
