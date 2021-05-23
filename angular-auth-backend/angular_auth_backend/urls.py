@@ -17,13 +17,19 @@ from django.urls import path
 from django.urls import include
 from django.contrib import admin
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView
+
 from .views import ListPersons
 from .views import HomePage
+
 from authentication.views import UserCreate
 
 urlpatterns = [
     path('', HomePage),
     path('admin/', admin.site.urls),
-    path('persons/', ListPersons.as_view()),
-    path('register/', UserCreate.as_view())
+    path('api/persons/', ListPersons.as_view()),
+    path('api/register/', UserCreate.as_view()),
+    path('api/login/', TokenObtainPairView.as_view()),
+    path('api/token/refresh/', TokenRefreshView.as_view()),
 ]
