@@ -39,8 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'angular_auth_backend',
     'rest_framework',
-    'authentication'
+    'authentication',
+    'djoser'
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
+    ],
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser"
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
