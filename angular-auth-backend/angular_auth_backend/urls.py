@@ -17,19 +17,17 @@ from django.urls import path
 from django.urls import include
 from django.contrib import admin
 
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.views import TokenRefreshView
-
-from .views import ListPersons
 from .views import HomePage
-
-from authentication.views import UserCreate
+from crud.views import *
 
 urlpatterns = [
     path('', HomePage),
     path('admin/', admin.site.urls),
-    path('api/persons/', ListPersons.as_view()),
-    path('api/register/', UserCreate.as_view()),
-    path('api/login/', TokenObtainPairView.as_view()),
-    path('api/token/refresh/', TokenRefreshView.as_view()),
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth/', include('djoser.urls.jwt')),
+    path('api/persons/', get_persons),
+    path('api/persons/<int:person_id>', get_person),
+    path('api/persons/add', add_person),
+    path('api/persons/<int:person_id>/update', update_person),
+    path('api/persons/<int:person_id>/delete', delete_person),
 ]
