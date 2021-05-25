@@ -25,7 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.jwt')),
-    path('api/persons/', get_persons),
+    path('api/persons', get_persons),
     path('api/persons/<int:person_id>', get_person),
     path('api/persons/add', add_person),
     path('api/persons/<int:person_id>/update', update_person),
