@@ -28,7 +28,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_COOKIE_NAME = 'XSRF-TOKEN'
+CSRF_HEADER_NAME = 'HTTP_X_XSRF_TOKEN'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,9 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'angular_auth_backend',
     'rest_framework',
-    'authentication',
+    'crud',
+    'corsheaders',
     'djoser'
 ]
+
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
@@ -64,9 +71,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'angular_auth_backend.urls'
+APPEND_SLASH=False
 
 TEMPLATES = [
     {
