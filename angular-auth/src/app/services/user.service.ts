@@ -16,7 +16,6 @@ export class UserService {
       .post(`${environment.backend}/api/auth/jwt/refresh/`, data)
       .subscribe((res: any) => {
         this.cookie.set('jwt', res['access']);
-        this.cookie.set('refresh', res['refresh']);
       });
   }
 }
