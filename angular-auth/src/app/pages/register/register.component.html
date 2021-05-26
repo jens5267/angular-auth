@@ -1,39 +1,81 @@
 <div class="container my-5 reg-form">
   <div class="row">
     <div class="col-md">
-      <div id='message'></div>
-      <form class="p-5 z-depth-1" data-aos="zoom-out" (submit)="submit()" [formGroup]="registerForm">
+      <div id="message"></div>
+      <form
+        class="p-5 z-depth-1"
+        data-aos="zoom-out"
+        (submit)="submit()"
+        [formGroup]="registerForm"
+      >
         <div class="text-center">
-          <mdb-icon fas icon="user-circle" size="5x" class="mb-2" style="color: #3f51b5"></mdb-icon>
+          <mdb-icon
+            fas
+            icon="user-circle"
+            size="5x"
+            class="mb-2"
+            style="color: #3f51b5"
+          ></mdb-icon>
         </div>
-
         <p class="h2 mb-4 text-center" style="font-weight: bold">Register</p>
+
+        <div class="alert {{ type }} text-center" role="alert">
+          {{ message }}
+        </div>
 
         <div class="md-form form-sm">
           <mdb-icon fas icon="envelope" class="prefix"></mdb-icon>
-          <input formControlName="email" mdbInput type="email" id="email_form" class="form-control form-control-sm"
-            required />
+          <input
+            formControlName="email"
+            mdbInput
+            type="email"
+            id="email_form"
+            class="form-control form-control-sm"
+            mdbInput
+          />
           <label for="email_form" class="">E-mail</label>
-          <div *ngIf="email.invalid && email.touched">
-            <span class="red-text"> Your email does not look right</span>
-          </div>
+          <mdb-error
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+          ></mdb-error>
+          <mdb-success
+            *ngIf="email.valid && (email.dirty || email.touched)"
+          ></mdb-success>
         </div>
         <div class="md-form form-sm">
           <mdb-icon fas icon="user-alt" class="prefix"></mdb-icon>
-          <input formControlName="name" mdbInput type="text" id="username_form" class="form-control form-control-sm"
-            required />
-          <div *ngIf="name.invalid && name.touched">
-            <span class="red-text">Username is required</span>
-          </div>
+          <input
+            formControlName="username"
+            mdbInput
+            type="text"
+            id="username_form"
+            class="form-control form-control-sm"
+            mdbInput
+          />
+          <mdb-error
+            *ngIf="username.invalid && (username.dirty || username.touched)"
+          ></mdb-error>
+          <mdb-success
+            *ngIf="username.valid && (username.dirty || username.touched)"
+          ></mdb-success>
           <label for="username_form" class="">Username</label>
         </div>
         <div class="md-form form-sm">
           <mdb-icon fas icon="key" class="prefix" size="1x"></mdb-icon>
-          <input formControlName="password" mdbInput type="password" id="pwd_form" class="form-control form-control-sm"
-            ngModel />  
-          <div *ngIf="password.invalid && password.touched">
-            <span class="red-text">Your password is too short</span>
-          </div>
+          <input
+            formControlName="password"
+            mdbInput
+            type="password"
+            id="pwd_form"
+            class="form-control form-control-sm"
+            ngModel
+            mdbInput
+          />
+          <mdb-error
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+          ></mdb-error>
+          <mdb-success
+            *ngIf="password.valid && (password.dirty || password.touched)"
+          ></mdb-success>
           <label for="pwd_form" class="">Password</label>
         </div>
         <button mdbBtn color="indigo" class="my-4 btn-block" type="submit">
