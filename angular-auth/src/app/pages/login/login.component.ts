@@ -1,5 +1,6 @@
+import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -7,6 +8,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -15,23 +17,26 @@ import {
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  type: any;
+  message: any;
 
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClientModule,
-    private router: Router
+    private http: HttpClient,
+    private router: Router,
+    private cookie: CookieService
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       // Form validation
-      name: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
   // get name from input data
-  get name() {
-    return this.loginForm.get('name');
+  get username() {
+    return this.loginForm.get('username');
   }
   // get password from input data
   get password() {
@@ -41,7 +46,25 @@ export class LoginComponent implements OnInit {
   // check form valid & send POST request to backend
   submit(): void {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.getRawValue());
+      let input_data = this.loginForm.getRawValue();
+      this.http
+        .post(`${environment.backend}/api/auth/jwt/create`, input_data, {withCredentials: true})
+        .subscribe(
+          (res: any) => {
+            console.log(res['access'])
+            // set tokens to cookie
+            this.cookie.set('jwt', res['access'])
+            this.cookie.set('refresh', res['refresh'])
+            // navigate home page
+            this.router.navigate(['/'])
+          },
+          (err: any) => {
+            if (err['status'] === 400) {
+              this.type = 'alert-danger';
+              this.message = 'This username already taken';
+            }
+          }
+        );
     }
   }
 }
