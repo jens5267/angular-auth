@@ -1,7 +1,12 @@
 <div class="container my-5 log-form">
   <div class="row p-3">
     <div class="col-md">
-      <form class="p-5 z-depth-1" data-aos="flip-up" [formGroup]="loginForm" (submit)="submit()">
+      <form
+        class="p-5 z-depth-1"
+        data-aos="flip-up"
+        [formGroup]="loginForm"
+        (submit)="submit()"
+      >
         <div class="text-center">
           <mdb-icon
             style="color: #ff3547"
@@ -12,6 +17,11 @@
           ></mdb-icon>
         </div>
         <p class="h2 mb-4 text-center" style="font-weight: bold">Login</p>
+
+        <div class="alert {{ type }} text-center" role="alert">
+          {{ message }}
+        </div>
+        
         <div class="md-form form-sm">
           <mdb-icon fas icon="user-alt" class="prefix"></mdb-icon>
           <input
@@ -19,12 +29,15 @@
             type="text"
             id="username_form"
             class="form-control form-control-sm"
-            required
-            formControlName="name"
+            formControlName="username"
+            mdbInput
           />
-          <div *ngIf="name.invalid && name.touched">
-            <span class="red-text">Username is required</span>
-          </div>
+          <mdb-error
+            *ngIf="username.invalid && (username.dirty || username.touched)"
+          ></mdb-error>
+          <mdb-success
+            *ngIf="username.valid && (username.dirty || username.touched)"
+          ></mdb-success>
           <label for="username_form" class="">Username</label>
         </div>
         <div class="md-form form-sm">
@@ -35,11 +48,14 @@
             id="pwd_form"
             class="form-control form-control-sm"
             formControlName="password"
-            required
+            mdpInput
           />
-          <div *ngIf="password.invalid && password.touched">
-            <span class="red-text">Password is required</span>
-          </div>
+          <mdb-error
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+          ></mdb-error>
+          <mdb-success
+            *ngIf="password.valid && (password.dirty || password.touched)"
+          ></mdb-success>
           <label for="pwd_form" class="">Password</label>
         </div>
         <button mdbBtn color="danger" class="my-4 btn-block" type="submit">
