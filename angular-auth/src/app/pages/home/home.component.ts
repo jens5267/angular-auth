@@ -1,4 +1,3 @@
-import { UserService } from './../../services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
@@ -13,7 +12,6 @@ export class HomeComponent implements OnInit {
   constructor(
     private cookie: CookieService,
     private http: HttpClient,
-    private user: UserService
   ) {}
 
   ngOnInit(): void {
@@ -25,8 +23,16 @@ export class HomeComponent implements OnInit {
       .subscribe(
         (res: any) => {},
         (err: any) => {
-          this.user.refresh();
+          this.refresh();
         }
       );
+  }
+  refresh(this: any) {
+    let data = { refresh: this.cookie.get('refresh') };
+    this.http
+      .post(`${environment.backend}/api/auth/jwt/refresh/`, data)
+      .subscribe((res: any) => {
+        this.cookie.set('jwt', res['access']);
+      });
   }
 }
