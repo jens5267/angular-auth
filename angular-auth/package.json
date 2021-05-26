@@ -28,6 +28,8 @@
     "aos": "^2.3.4",
     "chart.js": "^2.9.4",
     "hammerjs": "^2.0.8",
+    "js-cookie": "^2.2.1",
+    "ngx-cookie-service": "^12.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
