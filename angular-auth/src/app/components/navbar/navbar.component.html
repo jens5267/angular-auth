@@ -1,12 +1,16 @@
-<!--Navbar-->
 <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
   <mdb-navbar-brand
-    ><a class="navbar-brand" routerLink="/"><mdb-icon fas icon="lock"></mdb-icon> Angular-Auth</a></mdb-navbar-brand
+    ><a class="navbar-brand" routerLink="/"
+      ><mdb-icon fas icon="lock"></mdb-icon> Angular-Auth</a
+    ></mdb-navbar-brand
   >
+
   <links>
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto" *ngIf="!authenticated">
       <li class="nav-item">
-        <a class="nav-link waves-light" mdbWavesEffect routerLink=""><mdb-icon fas icon="home"></mdb-icon>Home</a>
+        <a class="nav-link waves-light" mdbWavesEffect routerLink=""
+          ><mdb-icon fas icon="home"></mdb-icon>Home</a
+        >
       </li>
       <li class="nav-item">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/register"
@@ -16,6 +20,14 @@
       <li class="nav-item">
         <a class="nav-link waves-light" mdbWavesEffect routerLink="/login"
           ><mdb-icon fas icon="fingerprint"></mdb-icon>Login</a
+        >
+      </li>
+    </ul>
+
+    <ul class="navbar-nav mr-auto" *ngIf="authenticated">
+      <li class="nav-item">
+        <a class="nav-link waves-light" mdbWavesEffect (click)="submit()"
+          ><mdb-icon fas icon="sign-out-alt"></mdb-icon> Logout</a
         >
       </li>
     </ul>
