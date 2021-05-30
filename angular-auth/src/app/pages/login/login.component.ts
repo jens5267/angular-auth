@@ -1,3 +1,4 @@
+import { UserService } from './../../services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -19,15 +20,20 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   type: any;
   message: any;
+  jwt: string = this.cookie.get('jwt');
+  refresh_token: string = this.cookie.get('refresh');
 
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private user: UserService
   ) {}
 
   ngOnInit(): void {
+    this.user.verify(this.jwt, this.refresh_token);
+
     this.loginForm = this.formBuilder.group({
       // Form validation
       username: ['', Validators.required],
@@ -46,22 +52,27 @@ export class LoginComponent implements OnInit {
   // check form valid & send POST request to backend
   submit(): void {
     if (this.loginForm.valid) {
-      let input_data = this.loginForm.getRawValue();
       this.http
-        .post(`${environment.backend}/api/auth/jwt/create`, input_data, {withCredentials: true})
+        .post(
+          `${environment.backend}/api/auth/jwt/create`,
+          this.loginForm.getRawValue()
+        )
         .subscribe(
           (res: any) => {
-            console.log(res['access'])
+            console.log(res['access']);
             // set tokens to cookie
-            this.cookie.set('jwt', res['access'])
-            this.cookie.set('refresh', res['refresh'])
+            this.cookie.set('jwt', res['access']);
+            this.cookie.set('refresh', res['refresh']);
             // navigate home page
-            this.router.navigate(['/'])
+            this.router.navigate(['/']);
           },
           (err: any) => {
-            if (err['status'] === 400) {
+            if (err['status'] === 401) {
               this.type = 'alert-danger';
-              this.message = 'This username already taken';
+              this.message = 'Username or Password is incorrect';
+            } else {
+              this.type = 'alert-danger';
+              this.message = 'Internal server error , sorry 😑';
             }
           }
         );
