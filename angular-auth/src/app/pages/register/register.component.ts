@@ -26,11 +26,11 @@ export class RegisterComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private cookie: CookieService,
-    private user:UserService
+    private user: UserService
   ) {}
 
   ngOnInit(): void {
-    this.user.verify(this.jwt, this.refresh_token);
+    this.user.verify();
     this.registerForm = this.formBuilder.group({
       // Form validators: username , password & email
       username: ['', Validators.required],
@@ -54,15 +54,27 @@ export class RegisterComponent implements OnInit {
   submit(): void {
     if (this.registerForm.valid) {
       this.http
-        .post(`${environment.backend}/api/auth/users/`, this.registerForm.getRawValue())
+        .post(
+          `${environment.backend}/api/auth/register`,
+          this.registerForm.getRawValue()
+        )
         .subscribe(
           (res: any) => {
             // if register was successfuly , this component navigates user to login page
             this.router.navigate(['/login']);
           },
           (err: any) => {
-            // if smth was wrong , alert it !
-            if (err['status'] === 400) {
+            if (
+              err.error.email &&
+              err.error.email[0] ===
+                'user with this email address already exists.'
+            ) {
+              this.type = 'alert-danger';
+              this.message = 'This email already taken';
+            } else if (
+              err.error.username[0] ===
+              'A user with that username already exists.'
+            ) {
               this.type = 'alert-danger';
               this.message = 'This username already taken';
             }
