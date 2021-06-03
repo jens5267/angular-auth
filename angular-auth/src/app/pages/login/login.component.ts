@@ -1,7 +1,7 @@
 import { UserService } from './../../services/user.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -20,8 +20,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   type: any;
   message: any;
-  jwt: string = this.cookie.get('jwt');
-  refresh_token: string = this.cookie.get('refresh');
+  authenticated: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,10 +29,8 @@ export class LoginComponent implements OnInit {
     private cookie: CookieService,
     private user: UserService
   ) {}
-
   ngOnInit(): void {
-    this.user.verify(this.jwt, this.refresh_token);
-
+    this.user.verify();
     this.loginForm = this.formBuilder.group({
       // Form validation
       username: ['', Validators.required],
@@ -51,31 +48,27 @@ export class LoginComponent implements OnInit {
   // submit function
   // check form valid & send POST request to backend
   submit(): void {
+    let data = this.loginForm.getRawValue();
     if (this.loginForm.valid) {
-      this.http
-        .post(
-          `${environment.backend}/api/auth/jwt/create`,
-          this.loginForm.getRawValue()
-        )
-        .subscribe(
-          (res: any) => {
-            console.log(res['access']);
-            // set tokens to cookie
-            this.cookie.set('jwt', res['access']);
-            this.cookie.set('refresh', res['refresh']);
-            // navigate home page
-            this.router.navigate(['/']);
-          },
-          (err: any) => {
-            if (err['status'] === 401) {
-              this.type = 'alert-danger';
-              this.message = 'Username or Password is incorrect';
-            } else {
-              this.type = 'alert-danger';
-              this.message = 'Internal server error , sorry 😑';
-            }
+      console.log(data);
+      this.http.post(`${environment.backend}/api/auth/login`, data).subscribe(
+        (res: any) => {
+          // set tokens to cookie
+          this.user.setJwt(res['access']);
+          this.user.setRefresh(res['refresh']);
+          // navigate home page
+          this.router.navigate(['/']);
+        },
+        (err: any) => {
+          if (err['status'] === 401) {
+            this.type = 'alert-danger';
+            this.message = 'Your username or password is incorrect';
+          } else {
+            this.type = 'alert-danger';
+            this.message = 'Internal server error , sorry 😑';
           }
-        );
+        }
+      );
     }
   }
 }
