@@ -1,0 +1,1 @@
+web: gunicorn angular_auth_backend.wsgi
