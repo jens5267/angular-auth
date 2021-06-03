@@ -3,55 +3,78 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { Emitters } from '../emitters/emitters';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  type: any;
+  message: any;
   constructor(
     private http: HttpClient,
     private router: Router,
     private cookie: CookieService
   ) {}
-  verify(jwt: string, refresh: string) {
-    if (jwt.length < 1 || refresh.length < 1) {
-      Emitters.authEmitter.emit(false);
-    } else {
-      this.http
-        .post(`${environment.backend}/api/auth/jwt/verify`, { token: jwt })
-        .subscribe(
-          (res: any) => {
-            Emitters.authEmitter.emit(true);
-            this.router.navigate(['/']);
-          },
-          (err: any) => {
-            this.refresh(refresh);
-          }
-        );
-    }
-  }
-  refresh(token: string) {
-    this.http
-      .post(`${environment.backend}/api/auth/jwt/refresh/`, { refresh: token })
-      .subscribe(
-        (res: any) => {
-          Emitters.authEmitter.emit(true);
-          this.setJwt(res['access']);
-          this.router.navigate(['/']);
-        },
-        (err: any) => {
-          Emitters.authEmitter.emit(false);
-          this.router.navigate(['/']);
-        }
-      );
-  }
-  setJwt(token: string) {
-    this.cookie.set('jwt', token);
-  }
   logout() {
     this.cookie.delete('jwt');
     this.cookie.delete('refresh');
     window.location.reload();
+  }
+  verify() {
+    let jwt: string = this.getJwt(),
+      refresh: string = this.getRefresh();
+
+    if (jwt.length < 1 || refresh.length < 1) {
+      console.log('token is incorrect❌');
+      return false;
+    } else {
+      let token: any = jwt_decode(jwt);
+      let current_time: any = Date.now() / 1000;
+      if (token.exp < current_time) {
+        console.log('token is incorrect❌');
+        // @ts-ignore
+        if (this.refresh_token(refresh)) {
+          console.log(this.refresh_token(refresh));
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        if (this.router.url === '/login' || this.router.url === '/register') {
+          this.router.navigate(['/']);
+        }
+        console.log('token is ok bro 😉');
+        return true;
+      }
+    }
+  }
+  refresh_token(token: string) {
+    this.http
+      .post(`${environment.backend}/api/auth/refresh`, { refresh: token })
+      .subscribe(
+        (res: any) => {
+          console.log('refresh success✅');
+          window.location.reload();
+          this.setJwt(res['access']);
+          return true;
+        },
+        (err: any) => {
+          console.log('refresh error!❌');
+          return false;
+        }
+      );
+  }
+  getJwt() {
+    return this.cookie.get('jwt');
+  }
+  getRefresh() {
+    return this.cookie.get('refresh');
+  }
+  setJwt(token: string) {
+    this.cookie.set('jwt', token);
+  }
+  setRefresh(token: string) {
+    this.cookie.set('refresh', token);
   }
 }
