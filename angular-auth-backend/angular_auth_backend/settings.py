@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from os import urandom
 
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,8 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1o62j_v^rb6i4o8@6k%rm#z98m*@!=7p0q$j#nc+9*=t(ce@6x'
-
+SECRET_KEY = urandom(64)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -43,12 +44,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'angular_auth_backend',
-    'rest_framework',
     'crud',
+    'rest_framework',
     'corsheaders',
-    'djoser'
+    'authentication',
+    'rest_framework_simplejwt.token_blacklist'
 ]
 
+AUTH_USER_MODEL = "auth.User"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
@@ -63,6 +66,18 @@ REST_FRAMEWORK = {
     ]
 }
 
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'AUDIENCE': 'auth_id',
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=7),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -75,7 +90,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'angular_auth_backend.urls'
-APPEND_SLASH=False
+APPEND_SLASH = False
 
 TEMPLATES = [
     {
