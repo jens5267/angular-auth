@@ -61,7 +61,7 @@ def add_person(request):
     serializer.is_valid(raise_exception=True)
     check = Person.objects.filter(first_name=payload['first_name'])
     if check:
-        return Response({'error': 'This data already exist!'})
+        return Response({'error': 'This person already exist!'})
     person = Person.objects.create(
         first_name=payload["first_name"],
         last_name=payload["last_name"],
