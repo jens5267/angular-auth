@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import jwt_decode from 'jwt-decode';
+import { Emitters } from '../emitters/emitters';
 
 @Injectable({
   providedIn: 'root',
@@ -16,11 +17,6 @@ export class UserService {
     private router: Router,
     private cookie: CookieService
   ) {}
-  logout() {
-    this.cookie.delete('jwt');
-    this.cookie.delete('refresh');
-    window.location.reload();
-  }
   verify() {
     let jwt: string = this.getJwt(),
       refresh: string = this.getRefresh();
@@ -29,9 +25,9 @@ export class UserService {
       console.log('token is incorrect❌');
       return false;
     } else {
-      let token: any = jwt_decode(jwt);
+      let decoded: any = jwt_decode(jwt);
       let current_time: any = Date.now() / 1000;
-      if (token.exp < current_time) {
+      if (decoded.exp < current_time) {
         console.log('token is incorrect❌');
         // @ts-ignore
         if (this.refresh_token(refresh)) {
