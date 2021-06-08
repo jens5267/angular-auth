@@ -26,7 +26,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = urandom(64)
+SECRET_KEY = os.urandom(64)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -122,7 +122,7 @@ WSGI_APPLICATION = 'angular_auth_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': f'{BASE_DIR}/db.sqlite3',
     }
 }
 
