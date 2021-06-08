@@ -1,4 +1,3 @@
-import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './../../services/user.service';
 import { Emitters } from 'src/app/emitters/emitters';
@@ -10,9 +9,8 @@ import { Emitters } from 'src/app/emitters/emitters';
 export class HomeComponent implements OnInit {
   authenticated: boolean = false;
   message: any;
-  jwt: string = this.cookie.get('jwt');
+  jwt: string = this.user.getJwt()
   constructor(
-    private cookie: CookieService,
     private user: UserService,
   ) {}
 
@@ -22,7 +20,7 @@ export class HomeComponent implements OnInit {
     });
     if (this.user.verify()) {
       Emitters.authEmitter.emit(true);
-      console.log('ok bro 😂');
+      console.log('token is ok bro 😉');
     } else {
       Emitters.authEmitter.emit(false);
     }
