@@ -1,6 +1,7 @@
-import { UserService } from './../../services/user.service';
 import { Emitters } from './../../emitters/emitters';
 import { Component, OnInit } from '@angular/core';
+
+import { AuthServiceService } from './../../services/auth-service.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   authenticated: boolean = false;
-  constructor(private user: UserService) {}
+  constructor(private auth: AuthServiceService) {}
 
   ngOnInit(): void {
     Emitters.authEmitter.subscribe((auth: boolean) => {
@@ -18,6 +19,6 @@ export class NavbarComponent implements OnInit {
   }
 
   submit(): void {
-    this.user.logout()
+    this.auth.logout();
   }
 }
