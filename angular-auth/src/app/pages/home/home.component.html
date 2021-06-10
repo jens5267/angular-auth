@@ -1,5 +1,5 @@
 <div class="container p-5">
-  <div class="text-center mb-2">
+  <div class="text-center mb-2" data-aos="zoom-out-down">
     <button
       type="button"
       (click)="statusModal.show()"
@@ -11,7 +11,23 @@
       Status <mdb-icon fas icon="battery-three-quarters"></mdb-icon>
     </button>
   </div>
+  <div class="row" *ngIf="authenticated" data-aos="zoom-out-down">
+    <div class="col-md-6" style="margin: auto">
+      <mdb-card>
+        <mdb-card-img
+          src="/assets/images/crud.png"
+          alt="crud_image"
+        ></mdb-card-img>
+        <mdb-card-body>
+          <mdb-card-text> Our Crud Service </mdb-card-text>
 
+          <a mdbBtn color="amber" routerLink="/people" mdbWavesEffect
+            >Navigate <mdb-icon fas icon="rocket"></mdb-icon
+          ></a>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </div>
   <div class="row" *ngIf="!authenticated">
     <div class="col-md mb-2">
       <mdb-card data-aos="fade-right">
