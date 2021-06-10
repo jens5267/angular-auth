@@ -1,1 +1,309 @@
-<p>crud works!</p>
+<div class="container mt-3 mb-2 p-3">
+  <h2 class="h2-responsive text-center font-weight-bold">Crud Service</h2>
+  <div class="alert alert-{{ type }} text-center" role="alert">
+    {{ message }}
+  </div>
+  <button
+    type="button"
+    size="sm"
+    mdbBtn
+    color="success"
+    mdbWavesEffect
+    (click)="Modal.show()"
+    data-aos="zoom-in-down"
+  >
+    <mdb-icon fas icon="plus"></mdb-icon>
+  </button>
+
+  <button
+    id="openModalButton"
+    type="button"
+    [hidden]="true"
+    (click)="UpdateModal.show()"
+  >
+    <mdb-icon fas icon="plus"></mdb-icon>
+  </button>
+
+  <mdb-card data-aos="zoom-in-down">
+    <mdb-card-body>
+      <table mdbTable class="text-center table-responsive-md">
+        <thead>
+          <tr>
+            <th>
+              <mdb-icon fas icon="list-ol" class="red-text"></mdb-icon> id
+            </th>
+            <th>
+              <mdb-icon far icon="user" class="blue-text"></mdb-icon> name
+            </th>
+            <th>
+              <mdb-icon far icon="user" class="green-text"></mdb-icon> surname
+            </th>
+            <th>
+              <mdb-icon fas icon="calendar-alt" class="amber-text"></mdb-icon>
+              age
+            </th>
+            <th>
+              <mdb-icon fas icon="toolbox" class="indigo-text"></mdb-icon>
+              actions
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let p of people">
+            <th id="data_{{ p.id }}" scope="row">{{ p.id }}</th>
+            <td id="data_{{ p.id }}_first">{{ p.first_name }}</td>
+            <td id="data_{{ p.id }}_last">{{ p.last_name }}</td>
+            <td id="data_{{ p.id }}_age">{{ p.age }}</td>
+            <td>
+              <button
+                type="button"
+                size="sm"
+                mdbBtn
+                color="amber"
+                mdbWavesEffect
+                (click)="showModal(p.id)"
+              >
+                <mdb-icon fas icon="pencil-alt"></mdb-icon>
+              </button>
+
+              <button
+                type="button"
+                size="sm"
+                mdbBtn
+                color="danger"
+                mdbWavesEffect
+                (click)="deletePerson(p.id)"
+              >
+                <mdb-icon fas icon="trash-alt"></mdb-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody></table
+    ></mdb-card-body>
+  </mdb-card>
+
+  <!--Add Person-->
+
+  <div
+    mdbModal
+    #Modal="mdbModal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="ModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close pull-right"
+            aria-label="Close"
+            (click)="Modal.hide()"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title w-100" id="myModalLabel">Add New Person</h4>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="personaddform">
+            <!--firstname-->
+            <div class="md-form form-sm">
+              <mdb-icon far icon="user-circle" class="prefix"></mdb-icon>
+              <input
+                mdbInput
+                type="text"
+                id="firstname_form"
+                class="form-control form-control-sm"
+                formControlName="first_name"
+                mdbInput
+              />
+              <mdb-error
+                *ngIf="
+                  first_name.invalid && (first_name.dirty || first_name.touched)
+                "
+              ></mdb-error>
+              <mdb-success
+                *ngIf="
+                  first_name.valid && (first_name.dirty || first_name.touched)
+                "
+              ></mdb-success>
+              <label for="firstname_form" class="">Firstname</label>
+            </div>
+
+            <!--lastname-->
+            <div class="md-form form-sm">
+              <mdb-icon far icon="grin-alt" class="prefix"></mdb-icon>
+              <input
+                mdbInput
+                type="text"
+                id="lastname_form"
+                class="form-control form-control-sm"
+                formControlName="last_name"
+                mdbInput
+              />
+              <mdb-error
+                *ngIf="
+                  last_name.invalid && (last_name.dirty || last_name.touched)
+                "
+              ></mdb-error>
+              <mdb-success
+                *ngIf="
+                  last_name.valid && (last_name.dirty || last_name.touched)
+                "
+              ></mdb-success>
+              <label for="lastname_form">Lastname</label>
+            </div>
+            <!--age-->
+            <div class="md-form form-sm">
+              <mdb-icon fas icon="calendar-alt" class="prefix"></mdb-icon>
+              <input
+                mdbInput
+                type="text"
+                id="age_form"
+                class="form-control form-control-sm"
+                formControlName="age"
+                mdbInput
+                [pattern]="agepattern"
+              />
+              <mdb-error
+                *ngIf="age.invalid && (age.dirty || age.touched)"
+              ></mdb-error>
+              <mdb-success
+                *ngIf="age.valid && (age.dirty || age.touched)"
+              ></mdb-success>
+              <label for="firstname_form" class="">Age</label>
+            </div>
+            <button
+              type="button"
+              mdbBtn
+              color="success"
+              class="relative waves-light"
+              mdbWavesEffect
+              type="button"
+              (click)="addPerson()"
+            >
+              Send <mdb-icon far icon="paper-plane"></mdb-icon>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Update Person Modal-->
+
+<div
+  mdbModal
+  #UpdateModal="mdbModal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="ModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="UpdateModal.hide()"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Update Person</h4>
+      </div>
+      <div class="modal-body">
+        <input [hidden]="true" id="person_id" />
+        <form [formGroup]="personupform">
+          <!--firstname-->
+          <div class="md-form form-sm">
+            <mdb-icon far icon="user-circle" class="prefix"></mdb-icon>
+            <input
+              mdbInput
+              type="text"
+              id="firstname_form_update"
+              class="form-control form-control-sm"
+              formControlName="first_name_up"
+              mdbInput
+            />
+            <mdb-error
+              *ngIf="
+                first_name_up.invalid &&
+                (first_name_up.dirty || first_name_up.touched)
+              "
+            ></mdb-error>
+            <mdb-success
+              *ngIf="
+                first_name_up.valid &&
+                (first_name_up.dirty || first_name_up.touched)
+              "
+            ></mdb-success>
+            <label for="firstname_update_form" class="">Firstname</label>
+          </div>
+
+          <!--lastname-->
+          <div class="md-form form-sm">
+            <mdb-icon far icon="grin-alt" class="prefix"></mdb-icon>
+            <input
+              mdbInput
+              type="text"
+              id="lastname_form_update"
+              class="form-control form-control-sm"
+              formControlName="last_name_up"
+              mdbInput
+            />
+            <mdb-error
+              *ngIf="
+                last_name_up.invalid &&
+                (last_name_up.dirty || last_name_up.touched)
+              "
+            ></mdb-error>
+            <mdb-success
+              *ngIf="
+                last_name_up.valid &&
+                (last_name_up.dirty || last_name_up.touched)
+              "
+            ></mdb-success>
+            <label for="lastname_update_form">Lastname</label>
+          </div>
+          <!--age-->
+          <div class="md-form form-sm">
+            <mdb-icon fas icon="calendar-alt" class="prefix"></mdb-icon>
+            <input
+              mdbInput
+              type="text"
+              id="age_form_update"
+              class="form-control form-control-sm"
+              formControlName="age_up"
+              mdbInput
+              [pattern]="agepattern"
+            />
+            <mdb-error
+              *ngIf="age_up.invalid && (age_up.dirty || age_up.touched)"
+            ></mdb-error>
+            <mdb-success
+              *ngIf="age_up.valid && (age_up.dirty || age_up.touched)"
+            ></mdb-success>
+            <label for="age_form_update" class="">Age</label>
+          </div>
+          <button
+            type="button"
+            mdbBtn
+            color="success"
+            class="relative waves-light"
+            mdbWavesEffect
+            (click)="updatePerson()"
+            type="button"
+          >
+            Update <mdb-icon fas icon="pen-square"></mdb-icon>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
