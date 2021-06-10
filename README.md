@@ -1,4 +1,4 @@
-# Angular-Django-Authentication
+# Angular-Django-Authentication 🔐
 
 > JWT authentication example with Angular and Django with Crud
 
@@ -22,7 +22,7 @@ $ cd angular-auth-backend/
 $ python3 -m venv env && source env/bin/activate
 ```
 
-Install all required pip packages using `pip` command:
+Install all required pip packages🗳 using `pip` command:
 
 ```bash
 $ pip3 install -r requirements.txt
@@ -42,7 +42,7 @@ We have to launch the most powerful command in the world:
 $ npm install 💥
 ```
 
-# Backend
+# Backend🚀
 
 Create super user:
 
@@ -57,7 +57,7 @@ Run development server:
 $ python3 manage.py runserver
 ```
 
-# Frontend
+# Frontend🖼
 
 Run development server:
 
@@ -119,9 +119,11 @@ Response:
   "id": "int",
   "email": "string",
   "username": "string",
-  "password": "string" //password hash
+  "password": "string"
 }
 ```
+
+> P.S password - your password hash
 
 Refresh token URI: `api/auth/refresh`
 
@@ -129,7 +131,7 @@ Request data:
 
 ```json
 {
-  "refresh": "string" //refresh token
+  "refresh": "string"
 }
 ```
 
@@ -139,7 +141,7 @@ Response:
 
 ```json
 {
-  "access": "string" //fresh jwt token 😊
+  "access": "string"
 }
 ```
 
@@ -180,11 +182,13 @@ Request data:
 
 ```json
 {
-  "first_name": "string", //required
-  "last_name": "string", //required
-  "age": "int" //required
+  "first_name": "string",
+  "last_name": "string",
+  "age": "int"
 }
 ```
+
+> P.S all of these are required
 
 Response:
 
