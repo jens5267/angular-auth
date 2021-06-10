@@ -16,9 +16,8 @@ urlpatterns = [
     path('api/auth/register', CreateUserView.as_view()),
     path('api/auth/login', TokenObtainPairView.as_view()),
     path('api/auth/refresh', TokenRefreshView.as_view()),
-    path('api/persons', get_persons),
-    path('api/persons/<int:person_id>', get_person),
-    path('api/persons/add', add_person),
-    path('api/persons/<int:person_id>/update', update_person),
-    path('api/persons/<int:person_id>/delete', delete_person),
+    path('api/people', PersonsView.as_view()),
+    path('api/person/add', PersonAddView.as_view()),
+    path('api/person/<int:pk>/update', PersonUpdateView.as_view()),
+    path('api/person/<int:pk>/delete', PersonDeleteView.as_view())
 ]
