@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  backend: 'https://angular-django.herokuapp.com'
+  backend: 'https://ziyodov.pythonanywhere.com'
 };
 
 /*
