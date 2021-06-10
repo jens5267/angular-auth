@@ -1,6 +1,6 @@
 # Angular-Django-Authentication
 
-> JWT authentication example Angular+Django with crud.
+> JWT authentication example with Angular and Django with Crud
 
 ![PAGE](screenshots/page.PNG)
 
@@ -81,8 +81,8 @@ Request data:
 
 ```json
 {
-    "username":string,
-    "password":string
+  "username": "string",
+  "password": "string"
 }
 ```
 
@@ -104,9 +104,9 @@ Request data:
 
 ```json
 {
-    "username":string,
-    "email":string,
-    "password":string
+  "username": "string",
+  "email": "string",
+  "password": "string"
 }
 ```
 
@@ -116,10 +116,10 @@ Response:
 
 ```json
 {
-  "id":int,
-  "email":string,
-  "username":string,
-  "password":string //password hash
+  "id": "int",
+  "email": "string",
+  "username": "string",
+  "password": "string" //password hash
 }
 ```
 
@@ -129,7 +129,7 @@ Request data:
 
 ```json
 {
-    "refresh":string //refresh token
+  "refresh": "string" //refresh token
 }
 ```
 
@@ -139,13 +139,13 @@ Response:
 
 ```json
 {
-    "access":string //fresh jwt token 😊
+  "access": "string" //fresh jwt token 😊
 }
 ```
 
 # CRUD ♻
 
-### Get
+### Get ✨
 
 Header:
 
@@ -158,17 +158,17 @@ Response:
 ```json
 [
   {
-    "id": int,
-    "first_name": string,
-    "last_name": string,
-    "age": int,
-    "created_at": string
+    "id": "int",
+    "first_name": "string",
+    "last_name": "string",
+    "age": "int",
+    "created_at": "string"
   }
   ...
 ]
 ```
 
-### POST
+### POST ➕
 
 Header:
 
@@ -179,28 +179,26 @@ Request method - **[POST]**
 Request data:
 
 ```json
-
-  {
-    "first_name": string, //required
-    "last_name": string, //required
-    "age": int, //required
-  }
-
+{
+  "first_name": "string", //required
+  "last_name": "string", //required
+  "age": "int" //required
+}
 ```
 
 Response:
 
 ```json
-  {
-    "id": int,
-    "first_name": string,
-    "last_name": string,
-    "age": int,
-    "created_at": string
-  }
+{
+  "id": "int",
+  "first_name": "string",
+  "last_name": "string",
+  "age": "int",
+  "created_at": "string"
+}
 ```
 
-### PATCH
+### PATCH ♻
 
 Header:
 
@@ -208,34 +206,32 @@ Header:
 
 Request URI: `api/person/:id/update`
 
-> Note: id:int
+> Note: id:"int"
 
 Request method - **[POST]**
 Request data:
 
 ```json
-
-  {
-    "first_name": string,
-    "last_name": string,
-    "age": int
-  }
-
+{
+  "first_name": "string",
+  "last_name": "string",
+  "age": "int"
+}
 ```
 
 Response:
 
 ```json
-  {
-    "id": int,
-    "first_name": string,
-    "last_name": string,
-    "age": int,
-    "created_at": string
-  }
+{
+  "id": "int",
+  "first_name": "string",
+  "last_name": "string",
+  "age": "int",
+  "created_at": "string"
+}
 ```
 
-### DELETE
+### DELETE ❌
 
 Header:
 
@@ -243,7 +239,7 @@ Header:
 
 Request URI: `api/person/:id/delete`
 
-> Note: id:int
+> Note: id:"int"
 
 Request method - **[DELETE]**
 Request body - not required
@@ -254,4 +250,4 @@ Response:
 [] //empty response (with 204 code)
 ```
 
-**Abduaziz Ziyodov**
+👨‍💻**Abduaziz Ziyodov**
