@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import jwt_decode from 'jwt-decode';
-import { Emitters } from '../emitters/emitters';
 
 @Injectable({
   providedIn: 'root',
@@ -22,13 +21,11 @@ export class UserService {
       refresh: string = this.getRefresh();
 
     if (jwt.length < 1 || refresh.length < 1) {
-      console.log('token is incorrect❌');
       return false;
     } else {
       let decoded: any = jwt_decode(jwt);
       let current_time: any = Date.now() / 1000;
       if (decoded.exp < current_time) {
-        console.log('token is incorrect❌');
         // @ts-ignore
         if (this.refresh_token(refresh)) {
           console.log(this.refresh_token(refresh));
@@ -40,7 +37,6 @@ export class UserService {
         if (this.router.url === '/login' || this.router.url === '/register') {
           this.router.navigate(['/']);
         }
-        console.log('token is ok bro 😉');
         return true;
       }
     }
@@ -50,13 +46,12 @@ export class UserService {
       .post(`${environment.backend}/api/auth/refresh`, { refresh: token })
       .subscribe(
         (res: any) => {
-          console.log('refresh success✅');
           window.location.reload();
           this.setJwt(res['access']);
           return true;
         },
         (err: any) => {
-          console.log('refresh error!❌');
+          console.log(err);
           return false;
         }
       );
