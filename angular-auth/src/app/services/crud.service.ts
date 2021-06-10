@@ -20,7 +20,7 @@ export class CrudService {
       this.getHeader()
     );
   }
-  updatePerson(id: number, data: any) {
+  updatePerson(id: number, data: any): Observable<any> {
     return this.http.patch(
       `${environment.backend}/api/person/${id}/update`,
       data,
@@ -28,7 +28,7 @@ export class CrudService {
     );
   }
 
-  deletePerson(id: number) {
+  deletePerson(id: number): Observable<any> {
     return this.http.delete(
       `${environment.backend}/api/person/${id}/delete`,
       this.getHeader()
