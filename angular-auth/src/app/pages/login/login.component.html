@@ -59,7 +59,7 @@
           <label for="pwd_form" class="">Password</label>
         </div>
         <button mdbBtn color="danger" class="my-4 btn-block" type="submit">
-          <mdb-icon fas icon="check-circle"></mdb-icon> Login
+          <span class="spinner-border spinner-border-sm" *ngIf="loading" role="status" aria-hidden="true"></span>Login
         </button>
         <div class="text-center">
           Don't have an account yet?

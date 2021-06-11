@@ -78,7 +78,13 @@
           <label for="pwd_form" class="">Password</label>
         </div>
         <button mdbBtn color="indigo" class="my-4 btn-block" type="submit">
-          <mdb-icon fas icon="user-plus"></mdb-icon> Register
+          <span
+            class="spinner-border spinner-border-sm"
+            *ngIf="loading"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Register
         </button>
         <div class="text-center">
           Have an account?
