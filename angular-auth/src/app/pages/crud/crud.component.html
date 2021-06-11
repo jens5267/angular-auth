@@ -23,7 +23,6 @@
   >
     <mdb-icon fas icon="plus"></mdb-icon>
   </button>
-
   <mdb-card data-aos="zoom-in-down">
     <mdb-card-body>
       <table mdbTable class="text-center table-responsive-md">
@@ -82,6 +81,12 @@
     ></mdb-card-body>
   </mdb-card>
 
+  <div class="d-flex justify-content-center mb-2" *ngIf="loading">
+    <div class="spinner-grow text-danger" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
   <!--Add Person-->
 
   <div
@@ -100,6 +105,7 @@
             type="button"
             class="close pull-right"
             aria-label="Close"
+            id="close_add"
             (click)="Modal.hide()"
           >
             <span aria-hidden="true">×</span>
@@ -184,7 +190,15 @@
               type="button"
               (click)="addPerson()"
             >
-              Send <mdb-icon far icon="paper-plane"></mdb-icon>
+              <span
+                *ngIf="form_loading"
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Send
+
+              <mdb-icon far icon="paper-plane"></mdb-icon>
             </button>
           </form>
         </div>
@@ -211,6 +225,7 @@
           type="button"
           class="close pull-right"
           aria-label="Close"
+          id="close_up"
           (click)="UpdateModal.hide()"
         >
           <span aria-hidden="true">×</span>
@@ -294,12 +309,18 @@
           <button
             type="button"
             mdbBtn
-            color="success"
+            color="amber"
             class="relative waves-light"
             mdbWavesEffect
             (click)="updatePerson()"
             type="button"
           >
+            <span
+              *ngIf="form_loading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
             Update <mdb-icon fas icon="pen-square"></mdb-icon>
           </button>
         </form>
