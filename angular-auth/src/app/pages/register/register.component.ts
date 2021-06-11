@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   jwt: string = this.user.getJwt();
   refresh_token: string = this.user.getRefresh();
 
+  loading: boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -35,13 +36,16 @@ export class RegisterComponent implements OnInit {
   }
 
   submit(): void {
+    this.loading = true;
     if (this.registerForm.valid) {
       this.auth.register(this.registerForm.getRawValue()).subscribe(
         (res: any) => {
           this.success(res);
+          this.loading = false;
         },
         (err: any) => {
           this.error(err);
+          this.loading = false;
         }
       );
     }

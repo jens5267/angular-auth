@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   type: any;
   message: any;
+  loading:boolean = false;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -28,13 +29,16 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
+    this.loading = true
     if (this.loginForm.valid) {
       this.auth.login(this.loginForm.getRawValue()).subscribe(
         (res: any) => {
           this.success(res);
+          this.loading = false;
         },
         (err: any) => {
           this.error(err);
+          this.loading = false;
         }
       );
     }
