@@ -18,7 +18,8 @@ export class CrudComponent implements OnInit {
 
   personaddform!: FormGroup;
   personupform!: FormGroup;
-
+  form_loading: boolean = false;
+  loading: boolean = true;
   constructor(
     private api: CrudService,
     private formBuilder: FormBuilder,
@@ -28,13 +29,17 @@ export class CrudComponent implements OnInit {
   ngOnInit(): void {
     this.api.getPersons().subscribe(
       (res: any) => {
+        this.loading = false;
         this.people = res;
+        console.log(this.people);
       },
       (err: any) => {
+        this.loading = false;
         this.message = err;
         this.type = 'danger';
       }
     );
+
     this.InitFormValidators();
   }
   showModal(id: number) {
@@ -46,6 +51,9 @@ export class CrudComponent implements OnInit {
       fields[i]?.setValue(data[i]?.innerText);
     }
     this.openUpdateModal();
+  }
+  closeModal(id: string) {
+    this.find(id)?.click();
   }
   InitFormValidators() {
     this.personaddform = this.formBuilder.group({
@@ -63,13 +71,18 @@ export class CrudComponent implements OnInit {
 
   // Create
   addPerson() {
+    this.form_loading = true;
     if (this.personaddform.valid) {
       this.api.addPerson(this.personaddform.getRawValue()).subscribe(
         (res: any) => {
-          window.location.reload();
-          console.log(res);
+          this.form_loading = false;
+          this.closeModal('close_add');
+          let person = this.personaddform.getRawValue();
+          person['id'] = res['id'];
+          this.people.push(person);
         },
         (err: any) => {
+          this.form_loading = false;
           console.log(err);
         }
       );
@@ -77,15 +90,19 @@ export class CrudComponent implements OnInit {
   }
   // Update
   updatePerson() {
+    this.form_loading = true;
     if (this.personupform.valid) {
       let id = parseInt(document.getElementById('person_id')?.innerText!);
       let data = this.getUpdateFormData();
       this.api.updatePerson(id, data).subscribe(
         (res: any) => {
-          window.location.reload();
-          console.log(res);
+          this.form_loading = false;
+          console.log(data);
+          this.people = this.update(id, data);
+          this.closeModal('close_up');
         },
         (err: any) => {
+          this.form_loading = false;
           console.log(err);
         }
       );
@@ -94,15 +111,40 @@ export class CrudComponent implements OnInit {
 
   // Delete
   deletePerson(id: number) {
-    this.api.deletePerson(id).subscribe(
-      (res: any) => {
-        window.location.reload();
-        console.log(res);
-      },
-      (err: any) => {
-        console.log(err);
+    if (confirm('Delete this person ?')) {
+      this.api.deletePerson(id).subscribe(
+        (res: any) => {
+          this.people = this.remove(id);
+          console.log(res);
+        },
+        (err: any) => {
+          console.log(err);
+        }
+      );
+    }
+  }
+  // Some helper functions
+
+  // for removing person from array by id
+  remove(id: number) {
+    this.people = this.people.filter((value: any, index: any, arr: any) => {
+      return value['id'] != id;
+    });
+
+    return this.people;
+  }
+
+  // for updating spec data in array by id
+  update(id: number, data: any) {
+    data['id'] = id;
+    for (let i in this.people) {
+      if (this.people[i]['id'] == id) {
+        console.log(this.people[i]);
+        this.people[i] = data;
+        break;
       }
-    );
+    }
+    return this.people;
   }
   openUpdateModal() {
     document.getElementById('openModalButton')?.click();
