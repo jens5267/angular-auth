@@ -36,8 +36,8 @@ export class RegisterComponent implements OnInit {
   }
 
   submit(): void {
-    this.loading = true;
     if (this.registerForm.valid) {
+      this.loading = true;
       this.auth.register(this.registerForm.getRawValue()).subscribe(
         (res: any) => {
           this.success(res);

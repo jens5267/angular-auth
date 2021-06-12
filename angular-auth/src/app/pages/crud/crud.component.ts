@@ -71,8 +71,8 @@ export class CrudComponent implements OnInit {
 
   // Create
   addPerson() {
-    this.form_loading = true;
     if (this.personaddform.valid) {
+      this.form_loading = true;
       this.api.addPerson(this.personaddform.getRawValue()).subscribe(
         (res: any) => {
           this.form_loading = false;
@@ -90,8 +90,8 @@ export class CrudComponent implements OnInit {
   }
   // Update
   updatePerson() {
-    this.form_loading = true;
     if (this.personupform.valid) {
+      this.form_loading = true;
       let id = parseInt(document.getElementById('person_id')?.innerText!);
       let data = this.getUpdateFormData();
       this.api.updatePerson(id, data).subscribe(
