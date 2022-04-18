@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { CrudService } from './../../services/crud.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -20,14 +19,10 @@ export class CrudComponent implements OnInit {
   personupform!: FormGroup;
   form_loading: boolean = false;
   loading: boolean = true;
-  constructor(
-    private api: CrudService,
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) {}
+  constructor(private api: CrudService, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.api.getPersons().subscribe(
+    this.api.getUsers().subscribe(
       (res: any) => {
         this.loading = false;
         this.people = res;

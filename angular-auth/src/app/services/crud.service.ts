@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 export class CrudService {
   constructor(private http: HttpClient, private user: UserService) {}
 
-  getPersons(): Observable<any> {
+  getUsers(): Observable<any> {
     return this.http.get(`${environment.backend}/api/people`, this.getHeader());
   }
   addPerson(data: any): Observable<any> {

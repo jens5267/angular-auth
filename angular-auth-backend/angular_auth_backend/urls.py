@@ -12,7 +12,7 @@ from crud.views import *
 
 urlpatterns = [
     path('', HomePage),
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('api/auth/register', CreateUserView.as_view()),
     path('api/auth/login', TokenObtainPairView.as_view()),
     path('api/auth/refresh', TokenRefreshView.as_view()),

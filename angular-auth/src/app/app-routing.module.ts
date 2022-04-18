@@ -12,6 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'people', component: CrudComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: 'people', pathMatch: 'full' },
   { path: '**', component: ErrorPageComponent },
 ];
 

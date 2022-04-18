@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backend: 'https://ziyodov.pythonanywhere.com'
+  backend: 'http://localhost:8000',
 };

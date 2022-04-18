@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       this.message = 'Your username or password is incorrect';
     } else {
       this.type = 'alert-danger';
-      this.message = 'Internal server error , sorry 😑';
+      this.message = 'Internal server time-out error';
     }
   }
   get username() {

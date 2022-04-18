@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  backend: 'https://ziyodov.pythonanywhere.com'
+  backend: 'http://localhost:8000',
 };
 
 /*
